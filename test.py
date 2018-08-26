@@ -18,7 +18,6 @@ import math
 os.environ["CUDA_VISIBLE_DEVICES"]='0'
 torch.cuda.set_device(0)
 
-
 print('Loading model..')
 ssd_net = build_sfd('test', 640, 2)
 net = ssd_net
@@ -206,16 +205,19 @@ def write_to_txt(f, det):
 if __name__ == '__main__':
     subset = 'val' # val or test
     if subset is 'val':
-        wider_face = sio.loadmat('/home/guoqiushan/share/workspace/caffe-ssd-s3fd/sfd_test_code/WIDER_FACE/wider_face_val.mat')    # Val set
+        wider_face = sio.loadmat('/home/anudee/Desktop/CAFFE_SFD/datasets/WIDER/wider_face_split/wider_face_val.mat')    # Val set
     else:
-        wider_face = sio.loadmat('/home/guoqiushan/share/workspace/caffe-ssd-s3fd/sfd_test_code/WIDER_FACE/wider_face_test.mat')   # Test set
+        wider_face = sio.loadmat('/home/anudee/Desktop/CAFFE_SFD/datasets/WIDER/wider_face_split/wider_face_test.mat')   # Test set
     event_list = wider_face['event_list']
     file_list = wider_face['file_list']
     del wider_face
 
-    Path = '/home/tmp_data_dir/zhaoyu/wider_face/WIDER_val/images/'
-    save_path = '/home/guoqiushan/share/workspace/caffe-ssd-s3fd-focal/sfd_test_code/WIDER_FACE/eval_tools_old-version/tmp_haha' + '_' + subset + '/'
-
+    if subset is 'val':
+        Path = '/home/anudee/Desktop/CAFFE_SFD/datasets/WIDER/WIDER_val/images/'
+        save_path = '/home/anudee/Desktop/PyramidBox/wider_result/val/' + '_' + subset + '/'
+    else:
+        Path = '/home/anudee/Desktop/CAFFE_SFD/datasets/WIDER/WIDER_test/images/'
+        save_path = '/home/anudee/Desktop/PyramidBox/wider_result/test/' + '_' + subset + '/'
 
     for index, event in enumerate(event_list):
         filelist = file_list[index][0]
@@ -244,4 +246,3 @@ if __name__ == '__main__':
             write_to_txt(f, dets)
 
             print('event:%d num:%d' % (index + 1, num + 1))
-
