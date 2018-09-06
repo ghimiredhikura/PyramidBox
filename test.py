@@ -15,6 +15,11 @@ import cv2
 import numpy as np
 import math
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--subset', default='val')
+parser.add_argument('--image_dir', default='/home/deep/Desktop/SFD_ROOT/datasets/WIDER/WIDER_val/images/')
+args = parser.parse_args()
+
 os.environ["CUDA_VISIBLE_DEVICES"]='0'
 torch.cuda.set_device(0)
 
@@ -26,12 +31,10 @@ net.cuda()
 net.eval()
 print('Finished loading model!')
 
-
 def detect_face(image, shrink):
     x = image
     if shrink != 1:
         x = cv2.resize(image, None, None, fx=shrink, fy=shrink, interpolation=cv2.INTER_LINEAR)
-
 
     print('shrink:{}'.format(shrink))
 
@@ -201,23 +204,19 @@ def write_to_txt(f, det):
         f.write('{:.1f} {:.1f} {:.1f} {:.1f} {:.3f}\n'.
                 format(xmin, ymin, (xmax - xmin + 1), (ymax - ymin + 1), score))
 
-
 if __name__ == '__main__':
-    subset = 'val' # val or test
-    if subset is 'val':
-        wider_face = sio.loadmat('/home/anudee/Desktop/CAFFE_SFD/datasets/WIDER/wider_face_split/wider_face_val.mat')    # Val set
+    subset = args.subset
+    if subset == 'val':
+        wider_face = sio.loadmat('wider_face_val.mat')    # Val set
     else:
-        wider_face = sio.loadmat('/home/anudee/Desktop/CAFFE_SFD/datasets/WIDER/wider_face_split/wider_face_test.mat')   # Test set
+        wider_face = sio.loadmat('wider_face_test.mat')   # Test set
+    
     event_list = wider_face['event_list']
     file_list = wider_face['file_list']
     del wider_face
 
-    if subset is 'val':
-        Path = '/home/anudee/Desktop/CAFFE_SFD/datasets/WIDER/WIDER_val/images/'
-        save_path = '/home/anudee/Desktop/PyramidBox/wider_result/val/' + '_' + subset + '/'
-    else:
-        Path = '/home/anudee/Desktop/CAFFE_SFD/datasets/WIDER/WIDER_test/images/'
-        save_path = '/home/anudee/Desktop/PyramidBox/wider_result/test/' + '_' + subset + '/'
+    Path = args.image_dir
+    save_path = 'wider_result/' + '_' + subset + '/'
 
     for index, event in enumerate(event_list):
         filelist = file_list[index][0]
@@ -228,8 +227,9 @@ if __name__ == '__main__':
             im_name = str(file[0][0].encode('utf-8'))[2:-1] 
             Image_Path = Path + str(event[0][0].encode('utf-8'))[2:-1] +'/'+im_name[:] + '.jpg'
             print(Image_Path)
-            image = cv2.imread(Image_Path,cv2.IMREAD_COLOR)
-
+            image = cv2.imread(Image_Path, cv2.IMREAD_COLOR)
+            cv2.imshow("img", image)
+            cv2.waitKey(1)        
             max_im_shrink = (0x7fffffff / 200.0 / (image.shape[0] * image.shape[1])) ** 0.5 # the max size of input image for caffe
             max_im_shrink = 3 if max_im_shrink > 3 else max_im_shrink
             
