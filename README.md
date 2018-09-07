@@ -22,3 +22,7 @@ python2.7 face_detection_wider_format.py --data_dir=ai_challenger_keypoint_test_
 ```
 
 It will search face in each image and store the detection result in wider face format with detection score of each detection box. The detection results will be stored in `./annotations/` dir followed by data subset name (ex. `./annotations/ai_challenger_keypoint_test_a_20180103/keypoint_test_a_images_20180103/`).  
+
+## Crop AI_Challenger face based on head and neck keypoint position. 
+
+You can use this [script](https://github.com/bonseyes/SFD/blob/master/scripts/prepare_data_utils/face_crop.py) to crop faces from AI_Challenger dataset. In some cases the head/face is not visible, therefore probably you need to filter out those corpped faces which do not include actual face.
