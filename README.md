@@ -21,7 +21,7 @@ Once the dataset and model download are completed you can use command below to p
 python2.7 face_detection_wider_format.py --data_dir=ai_challenger_keypoint_test_a_20180103 --out_dir=cropped --image_dir=keypoint_test_a_images_20180103 --json_file=keypoint_test_a_annotations_20180103.json --confidence=0.1
 ```
 
-It will search face in each image and store the detection result in wider face format with detection score of each detection box. The detection results will be stored in `./annotations/` dir followed by data subset name (ex. `./annotations/ai_challenger_keypoint_test_a_20180103/keypoint_test_a_images_20180103/`).  
+It will search face in each image and store the detection result in wider face format with detection score of each detection box. The detection results will be stored in `./annotations/` dir followed by dir with data subset name (ex. `./annotations/ai_challenger_keypoint_test_a_20180103/keypoint_test_a_images_20180103/`).  
 
 ## Crop AI_Challenger face based on head and neck keypoint position. 
 
