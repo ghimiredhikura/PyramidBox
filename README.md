@@ -25,4 +25,4 @@ It will search face in each image and store the detection result in wider face f
 
 ## Crop AI_Challenger face based on head and neck keypoint position. 
 
-You can use this [script](https://github.com/bonseyes/SFD/blob/master/scripts/prepare_data_utils/face_crop.py) to crop faces from AI_Challenger dataset. In some cases the head/face is not visible, therefore probably you need to filter out those corpped faces which do not include actual face.
+You can use this [script](https://github.com/bonseyes/SFD/blob/master/scripts/prepare_data_utils/ai_challenger_face_crop.py) to crop faces from AI_Challenger dataset. In some cases the head/face is not visible, therefore probably you need to filter out those corpped faces which do not include actual face.
